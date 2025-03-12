@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="" content="">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='base.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='form.css')}}">
+    
+    {% block header %}{% endblock %}
+</head>
+
+<body>
+    <section>
+        <div>
+            <ul class="navbar">
+                <li><a class="navbar_elements" href="{{url_for('main.home')}}">Home</a></li>
+                <li>Welcome</li>
+                {% if current_user.is_authenticated %}
+                    <li><a class="navbar_elements" href="{{url_for('auth.logout')}}">Logout {{current_user.username}}</a></li>
+                {% else %}
+                    <li><a class="navbar_elements" href="{{url_for('main.login')}}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div>
+            <div>
+                <center>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <h3 class="notification" >
+                            {{ messages[-1] }}
+                            </h3>
+                        {% endif %}
+                    {% endwith %}
+                    {% block content %}{% endblock %}
+                </center>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
