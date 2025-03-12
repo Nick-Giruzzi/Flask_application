@@ -2,10 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="" content="">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='base.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='form.css')}}">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8;application/javascript">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/base.css')}}">
+    <!--<link rel="stylesheet" type="text/css" href="{{url_for('main.static',filename='css/base.css')}}"> == Use this if unique folders for blueprints enabled
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/form.css')}}">-->
     
     {% block header %}{% endblock %}
 </head>

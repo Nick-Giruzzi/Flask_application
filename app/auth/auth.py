@@ -7,7 +7,7 @@ from app.functions import *
 from app.models import Anonymous, User
 import app.globals as globals
 
-auth = Blueprint("auth",__name__) 
+auth = Blueprint("auth",__name__) # add `, template_folder=f'templates', static_folder=f'static'` if url_prefix is enabled & blueprint unique templates and static folders are wanted
 
 @auth.route("/auth", methods=["GET","POST"])
 @auth.route("/auth/", methods=["GET","POST"])

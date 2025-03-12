@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
-{% block header %}
-  <title>{% block title %}User Login{% endblock %}</title>
-{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}{% endblock %}
 
 {% block content %}
 <div>
@@ -12,7 +14,7 @@
 </div>
 <br><br><br>
 <div class="login">
-  <h2 class="portal">Login Portal</h2>
+  <h2 class="portal">User Login</h2>
   <form method="POST" action="{{url_for('main.login')}}">
     <input type="text" class="text" name="username" required>
      <span class="form">username</span>

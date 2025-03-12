@@ -9,11 +9,11 @@ from app.models import Anonymous, User
 import app.globals as globals
 
 
-main = Blueprint("main",__name__) 
+main = Blueprint("main",__name__)       # add `, template_folder=f'templates', static_folder=f'static'` if url_prefix is enabled & blueprint unique templates and static folders are wanted
 
 @main.route("/", methods=["GET","POST"])
 def home():
-    return render_template_string("Home")
+    return render_template_string("index.html")
 
 @main.route("/login", methods=["GET","POST"])
 @main.route("/login/", methods=["GET","POST"])
