@@ -17,7 +17,6 @@
         <div>
             <ul class="navbar">
                 <li><a class="navbar_elements" href="{{url_for('main.home')}}">Home</a></li>
-                <li>Welcome</li>
                 {% if current_user.is_authenticated %}
                     <li><a class="navbar_elements" href="{{url_for('auth.logout')}}">Logout {{current_user.username}}</a></li>
                 {% else %}

@@ -9,7 +9,7 @@ from app.extensions import globals
 
 class Config:
     SECRET_KEY = 'THIS_IS_A_S3CRET'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(globals.basedir,'hub.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(globals.basedir,'server.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASK_APP = 'app.py'
     BASE_DIR = globals.basedir

@@ -5,12 +5,11 @@ from flask_login import LoginManager, current_user
 
 # Local Imports
 from config import Config
-from app.extensions import db, logger
-import app.globals as globals
+from app.extensions import db, logger, globals
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__, static_folder=f"{globals.basedir}/static/",template_folder=f"{globals.basedir}/templates/")
+    app = Flask(__name__, static_folder=f"{globals.basedir}/app/static/",template_folder=f"{globals.basedir}/app/templates/")
     app.config.from_object(config_class)
     app.url_map.strict_slashes = False
 
