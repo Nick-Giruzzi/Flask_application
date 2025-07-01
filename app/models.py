@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 from flask_login import UserMixin, AnonymousUserMixin
 from app.extensions import db

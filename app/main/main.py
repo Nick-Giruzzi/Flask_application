@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import subprocess, io
 from flask import Blueprint, render_template_string, render_template, request, Response, current_app, send_file, make_response, flash, url_for, redirect

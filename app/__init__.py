@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 import os, signal
 from flask import Flask, redirect, url_for
