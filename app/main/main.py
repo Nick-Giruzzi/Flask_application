@@ -16,8 +16,8 @@ main = Blueprint("main",__name__)       # add `, template_folder=f'templates', s
 
 @main.route("/", methods=["GET","POST"])
 def home():
-    return render_template_string("Home Page")
-    #return render_template_string("index.html")
+    #return render_template_string("Home Page")
+    return render_template("index.html")
 
 @main.route("/login", methods=["GET","POST"])
 def login():
