@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from flask_login import UserMixin, AnonymousUserMixin
+
+# Local Imports
 from app.extensions import db
 
 class Anonymous(AnonymousUserMixin):

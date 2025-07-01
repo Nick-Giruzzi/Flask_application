@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MailBox - Create Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .signup-header {
+            background: linear-gradient(135deg, #4c63d2 0%, #6b46c1 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .signup-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .signup-header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .signup-form {
+            padding: 40px 30px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            flex: 1;
+        }
+
+        .form-group.full-width {
+            flex: none;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4c63d2;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(76, 99, 210, 0.1);
+        }
+
+        .form-group input.error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .form-group input.success {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #10b981;
+            font-size: 18px;
+            display: none;
+        }
+
+        .password-strength {
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .signup-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4c63d2 0%, #6b46c1 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 99, 210, 0.3);
+        }
+
+        .signup-button:active {
+            transform: translateY(0);
+        }
+
+        .signup-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .signup-button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #4c63d2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                margin: 10px;
+                max-width: none;
+            }
+            
+            .signup-header {
+                padding: 30px 20px;
+            }
+            
+            .signup-form {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Floating animation for the container */
+        .signup-container {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <div class="logo"></div>
+            <h1>MailBox</h1>
+            <p>Create your account</p>
+        </div>
+        
+        <form class="signup-form" id="signupForm" action="/signup" method="POST">
+            <div class="success-message" id="successMessage">
+                Account created successfully! Welcome to MailBox.
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <div class="success-indicator" id="usernameSuccess"></div>
+                <div class="error-message" id="usernameError">Username must be 3-20 characters and contain only letters, numbers, and underscores</div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                    <div class="success-indicator" id="firstNameSuccess"></div>
+                    <div class="error-message" id="firstNameError">First name is required</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                    <div class="success-indicator" id="lastNameSuccess"></div>
+                    <div class="error-message" id="lastNameError">Last name is required</div>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="8">
+                <div class="success-indicator" id="passwordSuccess"></div>
+                <div class="error-message" id="passwordError">Password must be at least 8 characters long</div>
+                <div class="password-strength" id="passwordStrength">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strengthFill"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText">Enter a password</div>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="success-indicator" id="confirmPasswordSuccess"></div>
+                <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+            </div>
+            
+            <button type="submit" class="signup-button" id="signupButton" disabled>
+                <div class="spinner" id="spinner"></div>
+                <span id="buttonText">Create Account</span>
+            </button>
+            
+            <div class="login-link">
+                Already have an account? <a href="#">Sign in here</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Form elements
+        const signupForm = document.getElementById('signupForm');
+        const usernameInput = document.getElementById('username');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const signupButton = document.getElementById('signupButton');
+        const spinner = document.getElementById('spinner');
+        const buttonText = document.getElementById('buttonText');
+        const successMessage = document.getElementById('successMessage');
+
+        // Validation regex
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        const nameRegex = /^[a-zA-Z\s]{2,30}$/;
+
+        // Input event listeners for real-time validation
+        usernameInput.addEventListener('input', validateUsername);
+        firstNameInput.addEventListener('input', validateFirstName);
+        lastNameInput.addEventListener('input', validateLastName);
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+
+        // Form submission
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Re-validate all fields before submission
+            const isUsernameValid = validateUsername();
+            const isFirstNameValid = validateFirstName();
+            const isLastNameValid = validateLastName();
+            const isPasswordValid = validatePassword();
+            const isConfirmPasswordValid = validateConfirmPassword();
+            
+            if (isUsernameValid && isFirstNameValid && isLastNameValid && 
+                isPasswordValid && isConfirmPasswordValid) {
+                submitForm();
+            }
+        });
+
+        function submitForm() {
+            // Show loading state
+            signupButton.classList.add('loading');
+            spinner.style.display = 'inline-block';
+            buttonText.textContent = 'Creating Account...';
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('username', usernameInput.value.trim());
+            formData.append('firstName', firstNameInput.value.trim());
+            formData.append('lastName', lastNameInput.value.trim());
+            formData.append('password', passwordInput.value);
+            formData.append('confirmPassword', confirmPasswordInput.value);
+            
+            // Submit form data to the endpoint
+            fetch('/signup', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    successMessage.style.display = 'block';        
+
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        window.location.href = response.url || '/signup';
+                    }, 2000);
+                } else {
+                    throw new Error('Signup failed');
+                }
+            })
+            .catch(error => {
+                // Handle error
+                alert('Account creation failed. Please try again.');
+            })
+            .finally(() => {
+                // Hide loading state
+                signupButton.classList.remove('loading');
+                spinner.style.display = 'none';
+                buttonText.textContent = 'Create Account';
+            });
+        }
+
+        function validateUsername() {
+            const username = usernameInput.value.trim();
+            const usernameError = document.getElementById('usernameError');
+            const usernameSuccess = document.getElementById('usernameSuccess');
+            
+            if (username === '') {
+                showError(usernameInput, usernameError, usernameSuccess, 'Username is required');
+                return false;
+            } else if (!usernameRegex.test(username)) {
+                showError(usernameInput, usernameError, usernameSuccess, 'Username must be 3-20 characters and contain only letters, numbers, and underscores');
+                return false;
+            } else {
+                showSuccess(usernameInput, usernameError, usernameSuccess);
+                checkFormValidity();
+                return true;
+            }
+        }
+
+        function validateFirstName() {
+            const firstName = firstNameInput.value.trim();
+            const firstNameError = document.getElementById('firstNameError');
+            const firstNameSuccess = document.getElementById('firstNameSuccess');
+            
+            if (firstName === '') {
+                showError(firstNameInput, firstNameError, firstNameSuccess, 'First name is required');
+                return false;
+            } else if (!nameRegex.test(firstName)) {
+                showError(firstNameInput, firstNameError, firstNameSuccess, 'First name must contain only letters and be 2-30 characters');
+                return false;
+            } else {
+                showSuccess(firstNameInput, firstNameError, firstNameSuccess);
+                checkFormValidity();
+                return true;
+            }
+        }
+
+        function validateLastName() {
+            const lastName = lastNameInput.value.trim();
+            const lastNameError = document.getElementById('lastNameError');
+            const lastNameSuccess = document.getElementById('lastNameSuccess');
+            
+            if (lastName === '') {
+                showError(lastNameInput, lastNameError, lastNameSuccess, 'Last name is required');
+                return false;
+            } else if (!nameRegex.test(lastName)) {
+                showError(lastNameInput, lastNameError, lastNameSuccess, 'Last name must contain only letters and be 2-30 characters');
+                return false;
+            } else {
+                showSuccess(lastNameInput, lastNameError, lastNameSuccess);
+                checkFormValidity();
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const passwordError = document.getElementById('passwordError');
+            const passwordSuccess = document.getElementById('passwordSuccess');
+            
+            updatePasswordStrength(password);
+
+        if (password === '') {
+                showError(passwordInput, passwordError, passwordSuccess, 'Password is required');
+                return false;
+            } else if (password.length < 8) {
+                showError(passwordInput, passwordError, passwordSuccess, 'Password must be at least 8 characters long');
+                return false;
+            } else {
+                showSuccess(passwordInput, passwordError, passwordSuccess);
+                validateConfirmPassword(); // Re-validate confirm password when password changes
+                checkFormValidity();
+                return true;
+            }
+        }
+
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const confirmPasswordSuccess = document.getElementById('confirmPasswordSuccess');
+            
+            if (confirmPassword === '') {
+                showError(confirmPasswordInput, confirmPasswordError, confirmPasswordSuccess, 'Please confirm your password');
+                return false;
+            } else if (password !== confirmPassword) {
+                showError(confirmPasswordInput, confirmPasswordError, confirmPasswordSuccess, 'Passwords do not match');
+                return false;
+            } else {
+                showSuccess(confirmPasswordInput, confirmPasswordError, confirmPasswordSuccess);
+                checkFormValidity();
+                return true;
+            }
+        }
+
+        function updatePasswordStrength(password) {
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 0;
+            let strengthLabel = 'Weak';
+            let color = '#ef4444';
+            
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[0-9]/)) strength += 1;
+            if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+            
+            const percentage = (strength / 5) * 100;
+            
+            if (strength >= 4) {
+                strengthLabel = 'Strong';
+                color = '#10b981';
+            } else if (strength >= 3) {
+                strengthLabel = 'Good';
+                color = '#f59e0b';
+            } else if (strength >= 2) {
+                strengthLabel = 'Fair';
+                color = '#f97316';
+            }
+            
+            strengthFill.style.width = percentage + '%';
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = password.length > 0 ? strengthLabel : 'Enter a password';
+            strengthText.style.color = color;
+        }
+
+        function validateAllFields() {
+            // Don't call individual validation functions here to avoid infinite loops
+            // Just check the current state of all fields
+            const username = usernameInput.value.trim();
+            const firstName = firstNameInput.value.trim();
+            const lastName = lastNameInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            const isUsernameValid = username !== '' && usernameRegex.test(username);
+            const isFirstNameValid = firstName !== '' && nameRegex.test(firstName);
+            const isLastNameValid = lastName !== '' && nameRegex.test(lastName);
+            const isPasswordValid = password !== '' && password.length >= 8;
+            const isConfirmPasswordValid = confirmPassword !== '' && password === confirmPassword;
+            
+            return isUsernameValid && isFirstNameValid && isLastNameValid && 
+                   isPasswordValid && isConfirmPasswordValid;
+        }
+
+        function checkFormValidity() {
+            const isValid = validateAllFields();
+            signupButton.disabled = !isValid;
+        }
+
+        function showError(input, errorElement, successElement, message) {
+            input.classList.add('error');
+            input.classList.remove('success');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            successElement.style.display = 'none';
+        }
+
+        function showSuccess(input, errorElement, successElement) {
+            input.classList.remove('error');
+            input.classList.add('success');
+            errorElement.style.display = 'none';
+            successElement.style.display = 'block';
+        }
+
+
+        // Sign in link
+        document.querySelector('.login-link a').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Sign in page would be loaded here.');
+        });
+
+        // Add interactive feedback
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'transform 0.2s ease';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
+
