@@ -6,10 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 
 # Local Imports
-from app.extensions import db
+from app.extensions import db, globals
 #from app.functions import 
 from app.models import Anonymous, User
-import app.globals as globals
 
 main = Blueprint("main",__name__)       # add `, template_folder=f'templates', static_folder=f'static'` if url_prefix is enabled & blueprint unique templates and static folders are wanted
 #CORS(main)

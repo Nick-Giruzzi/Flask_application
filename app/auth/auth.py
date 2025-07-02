@@ -5,10 +5,9 @@ from flask import Blueprint, render_template_string, render_template, request, R
 from flask_login import login_user, logout_user, current_user, login_required
 
 # Local Imports
-from app.extensions import db
+from app.extensions import db, globals
 from app.functions import *
 from app.models import Anonymous, User
-import app.globals as globals
 
 auth = Blueprint("auth",__name__) # add `, template_folder=f'templates', static_folder=f'static'` if url_prefix is enabled & blueprint unique templates and static folders are wanted
 
